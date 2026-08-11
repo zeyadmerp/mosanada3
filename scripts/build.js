@@ -6,7 +6,6 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const bodyPath = path.join(ROOT, 'partials', 'body.html');
-const metaPath = path.join(ROOT, 'build-meta.json');
 const outPath = path.join(ROOT, 'index.html');
 
 const SITE_URL = 'https://www.support.com.sa';
@@ -61,8 +60,19 @@ sectionComments.forEach(([from, to]) => {
   bodyOut = bodyOut.replace(from, to);
 });
 
-const meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
-const jsonLd = JSON.parse(meta.jsonLd);
+/* JSON-LD — inline defaults (no build-meta.json required in CI) */
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'مساندة',
+  alternateName: 'Mosanada',
+  foundingDate: '2010',
+  url: SITE_URL,
+  email: 'admin@support.com.sa',
+  telephone: '+966112450657',
+  address: { '@type': 'PostalAddress', addressLocality: 'Riyadh', addressCountry: 'SA' },
+  description: DESCRIPTION,
+};
 
 const enhancedJsonLd = [
   jsonLd,
