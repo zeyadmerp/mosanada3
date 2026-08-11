@@ -6,10 +6,10 @@
   "scripts": {
     "build": "node scripts/build.js",
     "favicons": "node scripts/generate-favicons.js",
-    "split": "node ../scripts/split-html.js",
-    "pages:deploy": "npx wrangler pages deploy . --project-name=mosanada3"
+    "deploy": "wrangler deploy",
+    "pages:deploy": "wrangler pages deploy . --project-name=mosanada3"
   },
   "devDependencies": {
-    "sharp": "^0.34.3"
+    "wrangler": "^4.24.0"
   }
 }
