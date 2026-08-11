@@ -119,7 +119,7 @@
 
   /** Fallback for stats already on screen (language switch, deep links) */
   function triggerVisibleCounters(root) {
-    const statBlocks = root.querySelectorAll('.stats .stat.rv');
+    const statBlocks = root.querySelectorAll('.stats .counter-card.rv, .stats .stat.rv');
     if (!statBlocks.length) return;
 
     statBlocks.forEach((stat, index) => {
@@ -137,7 +137,7 @@
   /** Intersection-based reveal for scroll animations */
   function initReveal(root) {
     const targets = root.querySelectorAll('.rv, .tech');
-    const statBlocks = root.querySelectorAll('.stats .stat.rv');
+    const statBlocks = root.querySelectorAll('.stats .counter-card.rv, .stats .stat.rv');
 
     if (!('IntersectionObserver' in window)) {
       targets.forEach((el) => el.classList.add('is-in'));
@@ -151,7 +151,7 @@
           if (!entry.isIntersecting) return;
           entry.target.classList.add('is-in');
 
-          if (entry.target.closest('.stats') && entry.target.classList.contains('stat')) {
+          if (entry.target.closest('.stats') && (entry.target.classList.contains('counter-card') || entry.target.classList.contains('stat'))) {
             const index = [...statBlocks].indexOf(entry.target);
             scheduleStatCounter(entry.target, index >= 0 ? index : 0);
           }

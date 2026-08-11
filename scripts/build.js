@@ -53,7 +53,6 @@ const sectionComments = [
   ['<section class="section pkg" id="packages-ar"', '<!-- ===== Packages (AR) ===== -->\n<section class="section pkg" id="packages-ar"'],
   ['<section class="section section--navy stats" id="stats-ar"', '<!-- ===== Stats (AR) ===== -->\n<section class="section section--navy stats" id="stats-ar"'],
   ['<section class="section section--tint" id="tech-ar"', '<!-- ===== Technology (AR) ===== -->\n<section class="section section--tint" id="tech-ar"'],
-  ['<section class="section" id="sectors-ar"', '<!-- ===== Sectors (AR) ===== -->\n<section class="section" id="sectors-ar"'],
   ['<section class="section" id="partners-ar"', '<!-- ===== Partners (AR) ===== -->\n<section class="section" id="partners-ar"'],
   ['<section class="section section--blue" id="contact-ar"', '<!-- ===== Contact (AR) ===== -->\n<section class="section section--blue" id="contact-ar"'],
   ['<footer class="ftr">', '<!-- ===== Footer (AR) ===== -->\n<footer class="ftr">'],
@@ -147,6 +146,7 @@ const html = `<!DOCTYPE html>
   <meta name="twitter:image" content="${SITE_URL}/assets/images/logo.png">
 
   <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
   <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">

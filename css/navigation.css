@@ -77,14 +77,13 @@ body.menu-open .burger {
     height: 64px;
   }
 
-  .brand .logo-img {
-    height: 44px;
-    width: 66px;
+  .brand__logo {
+    height: 40px;
+    max-width: min(170px, 46vw);
   }
 
-  .hdr.is-stuck .brand .logo-img {
-    height: 40px;
-    width: 60px;
+  .hdr.is-stuck .brand__logo {
+    height: 36px;
   }
 
   .burger {
@@ -92,6 +91,18 @@ body.menu-open .burger {
     height: 44px;
     border-radius: 11px;
   }
+}
+
+.brand__logo {
+  display: block;
+  height: 44px;
+  width: auto;
+  max-width: min(200px, 38vw);
+  object-fit: contain;
+}
+
+.hdr.is-stuck .brand__logo {
+  height: 40px;
 }
 
 /* ============ Mobile sidebar — shell ============ */
@@ -171,9 +182,9 @@ body.menu-open .mnav__panel {
   background: linear-gradient(180deg, #fff 0%, var(--bg-1) 100%);
 }
 
-.mnav__brand .logo-img {
+.mnav__brand .brand__logo {
   height: 52px;
-  width: 78px;
+  max-width: 200px;
 }
 
 .mnav__close {
