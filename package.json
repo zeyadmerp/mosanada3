@@ -1,0 +1,14 @@
+{
+  "name": "mosanada-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mosanada corporate website — Arabic/English bilingual",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "favicons": "node scripts/generate-favicons.js",
+    "split": "node ../scripts/split-html.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.3"
+  }
+}
