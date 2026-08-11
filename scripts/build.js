@@ -200,4 +200,31 @@ copyFileIfExists(path.join(ROOT, '_headers'), '_headers');
 copyFileIfExists(path.join(ROOT, 'robots.txt'), 'robots.txt');
 copyFileIfExists(path.join(ROOT, 'sitemap.xml'), 'sitemap.xml');
 
+const notFoundHtml = `<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 — مساندة | Mosanada</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{min-height:100vh;display:grid;place-items:center;padding:24px;font-family:system-ui,sans-serif;background:#f4f9fc;color:#052a55}
+    .box{max-width:420px;text-align:center;background:#fff;border:1px solid #dbe8f2;border-radius:16px;padding:40px 28px;box-shadow:0 12px 40px rgba(5,42,85,.08)}
+    h1{font-size:64px;line-height:1;color:#004088;margin-bottom:8px}
+    p{font-size:17px;line-height:1.7;color:#5a7390;margin-bottom:24px}
+    a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border-radius:999px;background:#004088;color:#fff;text-decoration:none;font-weight:700;font-size:15px}
+    a:hover{background:#0c5a96}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>404</h1>
+    <p>الصفحة غير موجودة<br>Page not found</p>
+    <a href="/">العودة للرئيسية / Home</a>
+  </div>
+</body>
+</html>`;
+fs.writeFileSync(path.join(distPath, '404.html'), notFoundHtml, 'utf8');
+
 console.log('Prepared dist/ for deployment');

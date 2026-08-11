@@ -1,5 +1,12 @@
 # Cloudflare Workers — static site (HTML/CSS/JS)
-# Deploy command: npx wrangler deploy
+#
+# Deploy (from this folder):
+#   npm install
+#   npx wrangler login          # once
+#   npm run deploy
+#
+# Or from parent folder (mosanda3):
+#   npm run deploy
 
 name = "mosanada3"
 compatibility_date = "2024-08-01"

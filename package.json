@@ -6,8 +6,8 @@
   "scripts": {
     "build": "node scripts/build.js",
     "favicons": "node scripts/generate-favicons.js",
-    "deploy": "wrangler deploy",
-    "pages:deploy": "wrangler pages deploy . --project-name=mosanada3"
+    "predeploy": "node scripts/build.js",
+    "deploy": "node scripts/deploy.js"
   },
   "devDependencies": {
     "wrangler": "^4.24.0"
