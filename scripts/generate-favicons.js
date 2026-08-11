@@ -5,7 +5,7 @@ const path = require('path');
 const sharp = require('sharp');
 
 const ROOT = path.join(__dirname, '..');
-const SRC = path.join(ROOT, 'assets', 'images', 'favicon.png');
+const SRC = path.join(ROOT, 'assets', 'icons', 'favicon.ico');
 const OUT = path.join(ROOT, 'assets', 'icons');
 
 const sizes = [
@@ -18,7 +18,7 @@ const sizes = [
 async function run() {
   for (const { name, size } of sizes) {
     await sharp(SRC)
-      .resize(size, size, { fit: 'contain', background: { r: 5, g: 42, b: 85, alpha: 1 } })
+      .resize(size, size, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 1 } })
       .png()
       .toFile(path.join(OUT, name));
     console.log('Created', name);

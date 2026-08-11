@@ -88,8 +88,10 @@
       return;
     }
 
+    el.textContent = prefix + formatNumber(0) + suffix;
+
     let startTime = null;
-    const duration = 1500;
+    const duration = 2200;
 
     function step(timestamp) {
       if (!startTime) startTime = timestamp;
@@ -102,15 +104,44 @@
     requestAnimationFrame(step);
   }
 
+  /** Start a stat counter after its reveal animation */
+  function scheduleStatCounter(stat, index) {
+    const num = stat.querySelector('.num[data-count]');
+    if (!num || num.dataset.done || num.dataset.scheduled) return;
+
+    num.dataset.scheduled = '1';
+
+    window.setTimeout(() => {
+      delete num.dataset.scheduled;
+      if (!num.dataset.done) animateCounter(num);
+    }, 320 + index * 120);
+  }
+
+  /** Fallback for stats already on screen (language switch, deep links) */
+  function triggerVisibleCounters(root) {
+    const statBlocks = root.querySelectorAll('.stats .stat.rv');
+    if (!statBlocks.length) return;
+
+    statBlocks.forEach((stat, index) => {
+      const num = stat.querySelector('.num[data-count]');
+      if (!num || num.dataset.done) return;
+
+      const rect = stat.getBoundingClientRect();
+      if (rect.top >= window.innerHeight * 0.92 || rect.bottom <= 0) return;
+
+      stat.classList.add('is-in');
+      scheduleStatCounter(stat, index);
+    });
+  }
+
   /** Intersection-based reveal for scroll animations */
   function initReveal(root) {
-    const targets = root.querySelectorAll('.rv, .tech, .stats__grid');
+    const targets = root.querySelectorAll('.rv, .tech');
+    const statBlocks = root.querySelectorAll('.stats .stat.rv');
 
     if (!('IntersectionObserver' in window)) {
-      targets.forEach((el) => {
-        el.classList.add('is-in');
-        el.querySelectorAll('.num').forEach(animateCounter);
-      });
+      targets.forEach((el) => el.classList.add('is-in'));
+      statBlocks.forEach((stat, index) => scheduleStatCounter(stat, index));
       return;
     }
 
@@ -119,7 +150,12 @@
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           entry.target.classList.add('is-in');
-          entry.target.querySelectorAll('.num').forEach(animateCounter);
+
+          if (entry.target.closest('.stats') && entry.target.classList.contains('stat')) {
+            const index = [...statBlocks].indexOf(entry.target);
+            scheduleStatCounter(entry.target, index >= 0 ? index : 0);
+          }
+
           observer.unobserve(entry.target);
         });
       },
@@ -151,6 +187,7 @@
     });
 
     initReveal(site);
+    requestAnimationFrame(() => triggerVisibleCounters(site));
     updateActiveNavLink(site);
   }
 
@@ -184,6 +221,7 @@
 
     initSite(activeSite);
     onScroll();
+    requestAnimationFrame(() => triggerVisibleCounters(activeSite));
 
     if (window.__cartRender) window.__cartRender();
 
@@ -250,4 +288,40 @@
   }
 
   showLanguage(savedLang === 'en' ? 'en' : 'ar');
+
+  /** Page preloader — minimum visible time so the logo is noticeable */
+  function initPreloader() {
+    const preloader = document.getElementById('preloader');
+    if (!preloader) return;
+
+    const MIN_VISIBLE_MS = 2500;
+    const FADE_MS = 600;
+    const shownAt = Date.now();
+
+    function hidePreloader() {
+      const elapsed = Date.now() - shownAt;
+      const delay = Math.max(0, MIN_VISIBLE_MS - elapsed);
+
+      window.setTimeout(() => {
+        preloader.classList.add('fade-out');
+        window.setTimeout(() => {
+          preloader.style.display = 'none';
+        }, FADE_MS);
+      }, delay);
+    }
+
+    if (document.readyState === 'complete') {
+      hidePreloader();
+    } else {
+      window.addEventListener('load', hidePreloader);
+    }
+
+    window.setTimeout(() => {
+      sites.forEach((site) => {
+        if (!site.hidden) triggerVisibleCounters(site);
+      });
+    }, MIN_VISIBLE_MS + FADE_MS + 80);
+  }
+
+  initPreloader();
 })();

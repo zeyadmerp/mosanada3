@@ -29,6 +29,158 @@
   gap: clamp(24px, 3.5vw, 56px);
 }
 
+/* ============ Trust strip — sector cards below hero ============ */
+.trust {
+  border-block: 1px solid var(--line-soft);
+  background:
+    linear-gradient(180deg, rgba(244, 249, 252, 0.65) 0%, #fff 100%);
+  padding-block: clamp(32px, 4vw, 52px);
+}
+
+.trust__wrap {
+  display: grid;
+  gap: clamp(22px, 2.8vw, 32px);
+}
+
+.trust__head {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: clamp(19px, 2.1vw, 24px);
+  font-weight: 800;
+  line-height: 1.45;
+  letter-spacing: var(--tr-head);
+  color: var(--ink);
+  max-width: 28ch;
+  margin-inline: auto;
+}
+
+.trust__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 20px);
+}
+
+.trust-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: clamp(20px, 2vw, 26px) clamp(16px, 1.6vw, 20px);
+  background: #fff;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-m);
+  box-shadow: var(--shadow-s);
+  text-align: center;
+  transition:
+    opacity 0.65s cubic-bezier(0.2, 0.7, 0.3, 1),
+    transform 0.65s cubic-bezier(0.2, 0.7, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
+    border-color 0.35s ease;
+}
+
+.trust-card.rv {
+  opacity: 0;
+  transform: translateY(18px) scale(0.97);
+}
+
+.trust-card.rv.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.trust-card:hover {
+  transform: translateY(-4px);
+  border-color: #cfe3f2;
+  box-shadow: var(--shadow-m);
+}
+
+.trust-card.rv.is-in:hover {
+  transform: translateY(-4px);
+}
+
+.trust-card__ico {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(0, 64, 136, 0.08) 0%, rgba(40, 248, 208, 0.14) 100%);
+  color: var(--teal);
+  flex: none;
+  transition:
+    background 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.trust-card:hover .trust-card__ico {
+  background: linear-gradient(145deg, rgba(0, 64, 136, 0.12) 0%, rgba(40, 248, 208, 0.22) 100%);
+  color: var(--royal);
+  transform: scale(1.06);
+}
+
+.trust-card__title {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: clamp(15px, 1.35vw, 17px);
+  font-weight: 700;
+  line-height: 1.55;
+  color: var(--body);
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 1024px) {
+  .trust__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .trust__head {
+    max-width: none;
+    font-size: clamp(18px, 5vw, 21px);
+  }
+
+  .trust__grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .trust-card {
+    flex-direction: row;
+    align-items: center;
+    text-align: start;
+    gap: 16px;
+    padding: 18px 20px;
+  }
+
+  .trust-card__ico {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+  }
+
+  .trust-card__title {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trust-card,
+  .trust-card__ico {
+    transition: none;
+  }
+
+  .trust-card:hover {
+    transform: none;
+  }
+
+  .trust-card:hover .trust-card__ico {
+    transform: none;
+  }
+}
+
 /* ============ Section headings (sec-head eyebrow) — larger font ============ */
 .sec-head .eyebrow {
   font-size: clamp(15px, 1.5vw, 17.5px);
@@ -37,6 +189,13 @@
 
 .sec-head.center .eyebrow {
   gap: 12px;
+}
+
+/* About section label — "من نحن" / "About Mosanada" */
+#about-ar > .wrap.split > .rv > .eyebrow,
+#about-en > .wrap.split > .rv > .eyebrow {
+  font-size: clamp(20px, 2.2vw, 26px);
+  margin-bottom: 22px;
 }
 
 /* ============ Footer logo — transparent background ============ */
@@ -49,6 +208,7 @@
 }
 
 .ftr__logo .logo-img {
+  filter: brightness(0) invert(1);
   opacity: 1;
 }
 
@@ -110,4 +270,213 @@
   height: 20px;
   display: block;
   flex: none;
+}
+
+/* ============ Preloader ============ */
+.preloader {
+  position: fixed;
+  inset: 0;
+  background: #041f37;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.preloader-logo {
+  width: min(300px, 72vw);
+  height: auto;
+  mix-blend-mode: screen;
+  animation: pulse-logo 2s infinite ease-in-out;
+}
+
+@keyframes pulse-logo {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+/* ============ Section photos ============ */
+.frame__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__media .frame__img {
+  min-height: 100%;
+}
+
+.svc__media .frame__img,
+.tile__media .frame__img {
+  min-height: 210px;
+}
+
+/* ============ Partners marquee ============ */
+.marquee {
+  overflow: hidden;
+  padding: 30px 0 10px;
+  position: relative;
+  mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: partners-scroll 38s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes partners-scroll {
+  to { transform: translateX(calc(-50% - 12px)); }
+}
+
+[dir="rtl"] .marquee-track {
+  animation-name: partners-scroll-rtl;
+}
+
+@keyframes partners-scroll-rtl {
+  to { transform: translateX(calc(50% + 12px)); }
+}
+
+.partner-logo {
+  flex-shrink: 0;
+  width: 200px;
+  height: 90px;
+  background: #fff;
+  border: 1px solid var(--line-soft);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 22px;
+  box-shadow: var(--shadow-s);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.partner-logo:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-m);
+}
+
+.partner-logo img {
+  max-height: 60px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* ============ O&M orbit — hub reveal + three pillar dots ============ */
+.orbit__core.rv {
+  opacity: 0;
+  transform: scale(0.88);
+  transition:
+    opacity 0.85s cubic-bezier(0.2, 0.7, 0.3, 1),
+    transform 0.85s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.orbit__core.rv.is-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.orbit__core.rv .logo-img {
+  opacity: 0;
+  transform: scale(0.94);
+  transition:
+    opacity 0.55s ease 0.12s,
+    transform 0.55s ease 0.12s;
+}
+
+.orbit__core.rv.is-in .logo-img {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.orbit__pillars {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.25s;
+}
+
+.orbit__core.rv.is-in .orbit__pillars {
+  opacity: 1;
+  animation: orbit-pillars-spin 26s linear infinite;
+}
+
+.orbit__arm {
+  position: absolute;
+  inset: 0;
+}
+
+.orbit__arm--1 {
+  transform: rotate(0deg);
+}
+
+.orbit__arm--2 {
+  transform: rotate(120deg);
+}
+
+.orbit__arm--3 {
+  transform: rotate(240deg);
+}
+
+.orbit__dot {
+  position: absolute;
+  top: 7%;
+  left: 50%;
+  width: clamp(9px, 2.4vw, 11px);
+  height: clamp(9px, 2.4vw, 11px);
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: linear-gradient(145deg, #0c5a96 0%, #28f8d0 100%);
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 2px 8px rgba(0, 64, 136, 0.22),
+    0 0 14px rgba(40, 248, 208, 0.45);
+}
+
+.orbit__arm--1 .orbit__dot {
+  background: linear-gradient(145deg, #004088 0%, #0c5a96 100%);
+}
+
+.orbit__arm--2 .orbit__dot {
+  background: linear-gradient(145deg, #0c5a96 0%, #22d9c4 100%);
+}
+
+.orbit__arm--3 .orbit__dot {
+  background: linear-gradient(145deg, #22d9c4 0%, #28f8d0 100%);
+}
+
+@keyframes orbit-pillars-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit__core.rv,
+  .orbit__core.rv .logo-img {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .orbit__pillars {
+    opacity: 1;
+    animation: none;
+  }
 }
