@@ -7,6 +7,7 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const bodyPath = path.join(ROOT, 'partials', 'body.html');
 const outPath = path.join(ROOT, 'index.html');
+const distPath = path.join(ROOT, 'dist');
 
 const SITE_URL = 'https://www.support.com.sa';
 const TITLE = 'مساندة | حلول أعمال متكاملة لنمو مستدام';
@@ -167,3 +168,33 @@ ${bodyOut}
 
 fs.writeFileSync(outPath, html, 'utf8');
 console.log('Built index.html (' + html.length + ' bytes)');
+
+/* Copy static assets to dist/ for Cloudflare deploy (excludes node_modules) */
+function copyDir(src, dest) {
+  fs.mkdirSync(dest, { recursive: true });
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const from = path.join(src, entry.name);
+    const to = path.join(dest, entry.name);
+    if (entry.isDirectory()) copyDir(from, to);
+    else fs.copyFileSync(from, to);
+  }
+}
+
+function copyFileIfExists(src, dest) {
+  if (fs.existsSync(src)) fs.copyFileSync(src, path.join(distPath, dest));
+}
+
+if (fs.existsSync(distPath)) {
+  fs.rmSync(distPath, { recursive: true, force: true });
+}
+fs.mkdirSync(distPath, { recursive: true });
+
+fs.writeFileSync(path.join(distPath, 'index.html'), html, 'utf8');
+copyDir(path.join(ROOT, 'css'), path.join(distPath, 'css'));
+copyDir(path.join(ROOT, 'js'), path.join(distPath, 'js'));
+copyDir(path.join(ROOT, 'assets'), path.join(distPath, 'assets'));
+copyFileIfExists(path.join(ROOT, '_headers'), '_headers');
+copyFileIfExists(path.join(ROOT, 'robots.txt'), 'robots.txt');
+copyFileIfExists(path.join(ROOT, 'sitemap.xml'), 'sitemap.xml');
+
+console.log('Prepared dist/ for deployment');
